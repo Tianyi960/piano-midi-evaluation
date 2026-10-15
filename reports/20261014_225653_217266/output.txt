@@ -1,0 +1,516 @@
+Session: Pitch alignment with charts and audio
+Started (computer local time): 2026-10-14T22:56:53.218031-05:00
+Python executable: C:\Users\86138\miniconda3\python.exe
+Report directory: C:\Users\86138\Desktop\TestMidi\reports\20261014_225653_217266
+Terminal output saved to: C:\Users\86138\Desktop\TestMidi\reports\20261014_225653_217266\output.txt
+Preliminary pitch sequence alignment; no rhythm scoring, timing model, or HMM.
+CHORD_WINDOW=0.05s; fixed windows may affect scores for uneven chords and fast melodies.
+Notes within a chord are unordered; unmatched notes are listed without assigning substitutions.
+Score rules: exclude rests, count only the first tied onset, and exclude grace notes as before.
+Score parts:
+  1: Piano
+Score groups: 46, total score notes: 50
+Press Enter to start recording, then Ctrl+C to stop after playing.
+Audio input: 麦克风阵列 (适用于数字麦克风的英特尔® 智音技术) | sample rate: 44100 Hz | channels: 1 | PCM: 16-bit
+Audio recording started: C:\Users\86138\Desktop\TestMidi\reports\20261014_225653_217266\recording.wav
+Recording started...
+ON | 7.346s | note=(79, G5, Sol) | velocity=84
+ON | 7.879s | note=(77, F5, Fa) | velocity=83
+ON | 8.362s | note=(76, E5, Mi) | velocity=86
+ON | 9.229s | note=(76, E5, Mi) | velocity=79
+ON | 9.693s | note=(77, F5, Fa) | velocity=80
+ON | 10.139s | note=(74, D5, Re) | velocity=85
+ON | 11.061s | note=(74, D5, Re) | velocity=87
+ON | 11.543s | note=(76, E5, Mi) | velocity=75
+ON | 12.006s | note=(72, C5, Do) | velocity=85
+ON | 13.823s | note=(74, D5, Re) | velocity=81
+ON | 14.285s | note=(76, E5, Mi) | velocity=76
+ON | 14.762s | note=(77, F5, Fa) | velocity=77
+ON | 15.251s | note=(79, G5, Sol) | velocity=79
+ON | 16.179s | note=(76, E5, Mi) | velocity=79
+ON | 16.624s | note=(72, C5, Do) | velocity=87
+ON | 17.064s | note=(81, A5, La) | velocity=88
+ON | 18.034s | note=(77, F5, Fa) | velocity=88
+ON | 19.024s | note=(74, D5, Re) | velocity=90
+ON | 20.689s | note=(79, G5, Sol) | velocity=80
+ON | 21.223s | note=(79, G5, Sol) | velocity=88
+ON | 21.655s | note=(77, F5, Fa) | velocity=78
+ON | 22.107s | note=(76, E5, Mi) | velocity=81
+ON | 22.735s | note=(76, E5, Mi) | velocity=63 | note=(74, D5, Re) | velocity=54
+ON | 23.417s | note=(77, F5, Fa) | velocity=85
+ON | 24.243s | note=(74, D5, Re) | velocity=83
+ON | 25.013s | note=(72, C5, Do) | velocity=82
+ON | 25.452s | note=(74, D5, Re) | velocity=77
+ON | 25.915s | note=(76, E5, Mi) | velocity=75
+ON | 26.361s | note=(77, F5, Fa) | velocity=75
+ON | 26.806s | note=(79, G5, Sol) | velocity=69
+ON | 27.227s | note=(81, A5, La) | velocity=81
+ON | 27.656s | note=(83, B5, Si) | velocity=80
+ON | 28.102s | note=(84, C6, Do) | velocity=77
+ON | 28.531s | note=(83, B5, Si) | velocity=78
+ON | 29.007s | note=(81, A5, La) | velocity=81
+ON | 29.488s | note=(79, G5, Sol) | velocity=83
+ON | 29.934s | note=(77, F5, Fa) | velocity=70
+ON | 30.381s | note=(76, E5, Mi) | velocity=76
+ON | 30.864s | note=(74, D5, Re) | velocity=73
+ON | 31.438s | note=(72, C5, Do) | velocity=82
+ON | 32.216s | note=(71, B4, Si) | velocity=86
+ON | 33.565s | note=(69, A4, La) | velocity=82
+ON | 35.982s | note=(74, D5, Re) | velocity=78 | note=(64, E4, Mi) | velocity=81 | note=(67, G4, Sol) | velocity=74
+ON | 37.348s | note=(64, E4, Mi) | velocity=84 | note=(67, G4, Sol) | velocity=80 | note=(72, C5, Do) | velocity=80
+ON | 38.137s | note=(71, B4, Si) | velocity=68
+ON | 38.792s | note=(69, A4, La) | velocity=85
+ON | 39.480s | note=(67, G4, Sol) | velocity=91
+ON | 40.119s | note=(67, G4, Sol) | velocity=85 | note=(64, E4, Mi) | velocity=84 | note=(72, C5, Do) | velocity=68
+
+Recording stopped.
+WAV file: C:\Users\86138\Desktop\TestMidi\reports\20261014_225653_217266\recording.wav
+Audio duration: 44.582s | frames: 1966080
+
+Final alignment path (offsets use quarter-note units; measure offsets start at 0):
+Exact tie priority: match groups > skip score group > skip played group.
+
+[1]
+  score_group=1 | part=1, measure=1, measure_offset=0 | score_offset=0
+  played_group=1 | onset=7.346s
+  Expected notes: [79(G5)]
+  Played notes: [79(G5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[2]
+  score_group=2 | part=1, measure=1, measure_offset=1/2 | score_offset=1/2
+  played_group=2 | onset=7.879s
+  Expected notes: [77(F5)]
+  Played notes: [77(F5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[3]
+  score_group=3 | part=1, measure=2, measure_offset=0 | score_offset=1
+  played_group=3 | onset=8.362s
+  Expected notes: [76(E5)]
+  Played notes: [76(E5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[4]
+  score_group=4 | part=1, measure=2, measure_offset=1 | score_offset=2
+  played_group=4 | onset=9.229s
+  Expected notes: [76(E5)]
+  Played notes: [76(E5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[5]
+  score_group=5 | part=1, measure=2, measure_offset=3/2 | score_offset=5/2
+  played_group=5 | onset=9.693s
+  Expected notes: [77(F5)]
+  Played notes: [77(F5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[6]
+  score_group=6 | part=1, measure=2, measure_offset=2 | score_offset=3
+  played_group=6 | onset=10.139s
+  Expected notes: [74(D5)]
+  Played notes: [74(D5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[7]
+  score_group=7 | part=1, measure=2, measure_offset=3 | score_offset=4
+  played_group=7 | onset=11.061s
+  Expected notes: [74(D5)]
+  Played notes: [74(D5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[8]
+  score_group=8 | part=1, measure=2, measure_offset=7/2 | score_offset=9/2
+  played_group=8 | onset=11.543s
+  Expected notes: [76(E5)]
+  Played notes: [76(E5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[9]
+  score_group=9 | part=1, measure=3, measure_offset=0 | score_offset=5
+  played_group=9 | onset=12.006s
+  Expected notes: [72(C5)]
+  Played notes: [72(C5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[10]
+  score_group=10 | part=1, measure=3, measure_offset=5/2 | score_offset=15/2
+  played_group=10 | onset=13.823s
+  Expected notes: [74(D5)]
+  Played notes: [74(D5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[11]
+  score_group=11 | part=1, measure=3, measure_offset=3 | score_offset=8
+  played_group=11 | onset=14.285s
+  Expected notes: [76(E5)]
+  Played notes: [76(E5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[12]
+  score_group=12 | part=1, measure=3, measure_offset=7/2 | score_offset=17/2
+  played_group=12 | onset=14.762s
+  Expected notes: [77(F5)]
+  Played notes: [77(F5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[13]
+  score_group=13 | part=1, measure=4, measure_offset=0 | score_offset=9
+  played_group=13 | onset=15.251s
+  Expected notes: [79(G5)]
+  Played notes: [79(G5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[14]
+  score_group=14 | part=1, measure=4, measure_offset=1 | score_offset=10
+  played_group=14 | onset=16.179s
+  Expected notes: [76(E5)]
+  Played notes: [76(E5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[15]
+  score_group=15 | part=1, measure=4, measure_offset=3/2 | score_offset=21/2
+  played_group=15 | onset=16.624s
+  Expected notes: [72(C5)]
+  Played notes: [72(C5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[16]
+  score_group=16 | part=1, measure=4, measure_offset=2 | score_offset=11
+  played_group=16 | onset=17.064s
+  Expected notes: [84(C6)]
+  Played notes: [81(A5)]
+  correct=0, wrong=1, missed=0, extra=0
+  Unmatched expected notes (1): [84(C6)]
+  Unmatched played notes (1): [81(A5)]
+
+[17]
+  score_group=17 | part=1, measure=4, measure_offset=3 | score_offset=12
+  played_group=17 | onset=18.034s
+  Expected notes: [77(F5)]
+  Played notes: [77(F5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[18]
+  score_group=18 | part=1, measure=5, measure_offset=0 | score_offset=13
+  played_group=18 | onset=19.024s
+  Expected notes: [74(D5)]
+  Played notes: [74(D5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[19]
+  score_group=None | measure=None | measure_offset=None | score_offset=None
+  played_group=19 | onset=20.689s
+  Expected notes: []
+  Played notes: [79(G5)]
+  correct=0, wrong=0, missed=0, extra=1
+  Unmatched expected notes (0): []
+  Unmatched played notes (1): [79(G5)]
+
+[20]
+  score_group=19 | part=1, measure=5, measure_offset=3 | score_offset=16
+  played_group=20 | onset=21.223s
+  Expected notes: [79(G5)]
+  Played notes: [79(G5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[21]
+  score_group=20 | part=1, measure=5, measure_offset=7/2 | score_offset=33/2
+  played_group=21 | onset=21.655s
+  Expected notes: [77(F5)]
+  Played notes: [77(F5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[22]
+  score_group=21 | part=1, measure=6, measure_offset=0 | score_offset=17
+  played_group=22 | onset=22.107s
+  Expected notes: [76(E5)]
+  Played notes: [76(E5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[23]
+  score_group=22 | part=1, measure=6, measure_offset=1 | score_offset=18
+  played_group=23 | onset=22.735s
+  Expected notes: [76(E5)]
+  Played notes: [74(D5), 76(E5)]
+  correct=1, wrong=0, missed=0, extra=1
+  Unmatched expected notes (0): []
+  Unmatched played notes (1): [74(D5)]
+
+[24]
+  score_group=23 | part=1, measure=6, measure_offset=2 | score_offset=19
+  played_group=24 | onset=23.417s
+  Expected notes: [77(F5)]
+  Played notes: [77(F5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[25]
+  score_group=24 | part=1, measure=6, measure_offset=3 | score_offset=20
+  played_group=25 | onset=24.243s
+  Expected notes: [74(D5)]
+  Played notes: [74(D5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[26]
+  score_group=25 | part=1, measure=7, measure_offset=0 | score_offset=21
+  played_group=26 | onset=25.013s
+  Expected notes: [72(C5)]
+  Played notes: [72(C5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[27]
+  score_group=26 | part=1, measure=7, measure_offset=1/2 | score_offset=43/2
+  played_group=27 | onset=25.452s
+  Expected notes: [74(D5)]
+  Played notes: [74(D5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[28]
+  score_group=27 | part=1, measure=7, measure_offset=1 | score_offset=22
+  played_group=28 | onset=25.915s
+  Expected notes: [76(E5)]
+  Played notes: [76(E5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[29]
+  score_group=28 | part=1, measure=7, measure_offset=3/2 | score_offset=45/2
+  played_group=29 | onset=26.361s
+  Expected notes: [77(F5)]
+  Played notes: [77(F5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[30]
+  score_group=29 | part=1, measure=7, measure_offset=2 | score_offset=23
+  played_group=30 | onset=26.806s
+  Expected notes: [79(G5)]
+  Played notes: [79(G5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[31]
+  score_group=30 | part=1, measure=7, measure_offset=5/2 | score_offset=47/2
+  played_group=31 | onset=27.227s
+  Expected notes: [81(A5)]
+  Played notes: [81(A5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[32]
+  score_group=31 | part=1, measure=7, measure_offset=3 | score_offset=24
+  played_group=32 | onset=27.656s
+  Expected notes: [83(B5)]
+  Played notes: [83(B5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[33]
+  score_group=32 | part=1, measure=7, measure_offset=7/2 | score_offset=49/2
+  played_group=33 | onset=28.102s
+  Expected notes: [84(C6)]
+  Played notes: [84(C6)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[34]
+  score_group=33 | part=1, measure=8, measure_offset=0 | score_offset=25
+  played_group=34 | onset=28.531s
+  Expected notes: [83(B5)]
+  Played notes: [83(B5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[35]
+  score_group=34 | part=1, measure=8, measure_offset=1/2 | score_offset=51/2
+  played_group=35 | onset=29.007s
+  Expected notes: [81(A5)]
+  Played notes: [81(A5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[36]
+  score_group=35 | part=1, measure=8, measure_offset=1 | score_offset=26
+  played_group=36 | onset=29.488s
+  Expected notes: [79(G5)]
+  Played notes: [79(G5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[37]
+  score_group=36 | part=1, measure=8, measure_offset=3/2 | score_offset=53/2
+  played_group=37 | onset=29.934s
+  Expected notes: [77(F5)]
+  Played notes: [77(F5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[38]
+  score_group=37 | part=1, measure=8, measure_offset=2 | score_offset=27
+  played_group=38 | onset=30.381s
+  Expected notes: [76(E5)]
+  Played notes: [76(E5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[39]
+  score_group=38 | part=1, measure=8, measure_offset=5/2 | score_offset=55/2
+  played_group=39 | onset=30.864s
+  Expected notes: [74(D5)]
+  Played notes: [74(D5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[40]
+  score_group=39 | part=1, measure=8, measure_offset=3 | score_offset=28
+  played_group=40 | onset=31.438s
+  Expected notes: [72(C5)]
+  Played notes: [72(C5)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[41]
+  score_group=40 | part=1, measure=8, measure_offset=7/2 | score_offset=57/2
+  played_group=41 | onset=32.216s
+  Expected notes: [71(B4)]
+  Played notes: [71(B4)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[42]
+  score_group=None | measure=None | measure_offset=None | score_offset=None
+  played_group=42 | onset=33.565s
+  Expected notes: []
+  Played notes: [69(A4)]
+  correct=0, wrong=0, missed=0, extra=1
+  Unmatched expected notes (0): []
+  Unmatched played notes (1): [69(A4)]
+
+[43]
+  score_group=41 | part=1, measure=9, measure_offset=0 | score_offset=29
+  played_group=43 | onset=35.982s
+  Expected notes: [72(C5)]
+  Played notes: [64(E4), 67(G4), 74(D5)]
+  correct=0, wrong=1, missed=0, extra=2
+  Unmatched expected notes (1): [72(C5)]
+  Unmatched played notes (3): [64(E4), 67(G4), 74(D5)]
+
+[44]
+  score_group=42 | part=1, measure=10, measure_offset=0 | score_offset=33
+  played_group=44 | onset=37.348s
+  Expected notes: [64(E4), 67(G4), 72(C5)]
+  Played notes: [64(E4), 67(G4), 72(C5)]
+  correct=3, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[45]
+  score_group=43 | part=1, measure=10, measure_offset=1 | score_offset=34
+  played_group=45 | onset=38.137s
+  Expected notes: [71(B4)]
+  Played notes: [71(B4)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[46]
+  score_group=44 | part=1, measure=10, measure_offset=2 | score_offset=35
+  played_group=46 | onset=38.792s
+  Expected notes: [69(A4)]
+  Played notes: [69(A4)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[47]
+  score_group=45 | part=1, measure=10, measure_offset=3 | score_offset=36
+  played_group=47 | onset=39.480s
+  Expected notes: [67(G4)]
+  Played notes: [67(G4)]
+  correct=1, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+[48]
+  score_group=46 | part=1, measure=11, measure_offset=0 | score_offset=37
+  played_group=48 | onset=40.119s
+  Expected notes: [64(E4), 67(G4), 72(C5)]
+  Played notes: [64(E4), 67(G4), 72(C5)]
+  correct=3, wrong=0, missed=0, extra=0
+  Unmatched expected notes (0): []
+  Unmatched played notes (0): []
+
+Result:
+Total score notes: 50
+Total played notes: 55
+correct: 48
+wrong: 2
+missed: 0
+extra: 5
+note_accuracy: 0.96
+extra_note_ratio: 0.09090909090909091
+Chart saved: C:\Users\86138\Desktop\TestMidi\reports\20261014_225653_217266\alignment_page01.png
+Chart saved: C:\Users\86138\Desktop\TestMidi\reports\20261014_225653_217266\alignment_page02.png
+Session finished (computer local time): 2026-10-14T22:58:24.591095-05:00

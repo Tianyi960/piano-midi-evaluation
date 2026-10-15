@@ -1,6 +1,6 @@
 # TestMidi
 
-Small Python tools for inspecting live MIDI input and comparing a piano performance with a MusicXML score. The comparison is a preliminary pitch sequence alignment using note groups and dynamic programming edit distance.
+Small Python tools for inspecting live MIDI input, recording audio to WAV, and comparing a piano performance with a MusicXML score. The comparison is a preliminary pitch sequence alignment using note groups and dynamic programming edit distance.
 
 All script messages and comments are in English.
 
@@ -10,9 +10,11 @@ All script messages and comments are in English.
 | --- | --- |
 | `Piano.musicxml` | Reference score used by both accuracy scripts. |
 | `test_midi.py` | Inspect live note-on/note-off messages, velocity, and held-note duration. |
-| `test_accuracy_alignment.py` | Record MIDI, align it with the score, and print detailed results to the terminal. Does not export reports. |
-| `test_accuracy_with_chart.py` | Run the same comparison and also export paginated PNG charts. |
-| `reports/` | Exported chart images. Existing images are kept when a new session is exported. |
+| `record_audio.py` | Standalone audio recording and the shared background WAV recorder: Enter starts, Ctrl+C stops and saves. |
+| `session_report.py` | Create timestamped session folders and mirror terminal output to `output.txt`. |
+| `test_accuracy_alignment.py` | Record MIDI and audio, align MIDI with the score, and save the complete terminal report and WAV. |
+| `test_accuracy_with_chart.py` | Run the same comparison and also export paginated PNG charts into the same session folder. |
+| `reports/` | One timestamped subfolder per test or standalone audio recording. Existing sessions and older files are preserved. |
 | `.vscode/settings.json` | VS Code Python environment/package manager preferences for Conda. This does not activate an environment in every terminal. |
 | `README.md` | Setup, usage, configuration, and interpretation guide. |
 
@@ -21,10 +23,16 @@ All script messages and comments are in English.
 Connect the digital piano or MIDI keyboard and activate the Python environment you want to use. Install packages with that same Python interpreter:
 
 ```powershell
-python -m pip install mido python-rtmidi music21 matplotlib
+python -m pip install mido python-rtmidi music21 matplotlib sounddevice
 ```
 
 `matplotlib` is only needed for the chart script. `python-rtmidi` supplies a MIDI backend for `mido`.
+
+`sounddevice` is needed for simultaneous audio recording in the accuracy scripts. The independent WAV recorder only needs `sounddevice` in addition to Python's standard library:
+
+```powershell
+python -m pip install sounddevice
+```
 
 List the available MIDI input names:
 
@@ -42,7 +50,25 @@ If `python` in your terminal selects another environment, call the intended inte
 
 ## Run
 
-Run commands from this folder, using one script at a time so they do not compete for the MIDI port.
+Run commands from this folder. Run only one MIDI script at a time so they do not compete for the MIDI port.
+
+### Record audio to WAV
+
+```powershell
+python record_audio.py
+```
+
+Each invocation creates a timestamped folder under `reports/` and mirrors terminal output to `output.txt`. Press Enter to start, then Ctrl+C to stop and automatically save a 16-bit PCM WAV as `recording.wav` inside that folder. Folder names use the computer's local date and time, including microseconds, to distinguish sessions. Start/finish times in the log use that same local time and include the UTC offset; the Python interpreter path is also logged to help diagnose environment issues. Cancelling before Enter retains the log but does not create a WAV. The default is mono at the selected input device's default sample rate. Audio blocks are queued from the input callback and written by a background worker. Input status warnings, dropped blocks, and write errors are reported; queued audio is drained before the WAV header is finalized. An immediate stop can produce a valid zero-frame WAV.
+
+To list audio inputs or select a different one:
+
+```powershell
+python record_audio.py --list-devices
+python record_audio.py --device 2
+python record_audio.py --device "Microphone" --samplerate 48000 --channels 1
+```
+
+Use a device ID or a name from the list; sample rate and channel count must be supported by that device. By default, the system audio input is used. To record the piano's sound, select a microphone, line input, or a supported piano USB audio input carrying that sound. A MIDI port carries note events rather than audio, so connecting MIDI alone does not supply WAV audio. System playback is not automatically captured.
 
 ### Inspect MIDI messages
 
@@ -58,9 +84,11 @@ Recording starts immediately. Press Ctrl+C to stop. The output includes note nam
 python test_accuracy_alignment.py
 ```
 
-Press Enter to begin recording, play the score, then press Ctrl+C to stop. Messages received before recording begins are discarded. During recording, chord members are printed on one line with MIDI numbers, note names, solfege, and individual velocities.
+Each invocation creates its own report folder. Press Enter once to begin both MIDI and audio recording, play the score, then press Ctrl+C once to stop both. There is no need to launch `record_audio.py` separately. Messages received before MIDI recording begins are discarded. During recording, chord members are printed on one line with MIDI numbers, note names, solfege, and individual velocities.
 
-After recording stops, the script prints the complete alignment path and overall statistics. MIDI recording and port-close exceptions are caught so analysis of the notes received so far can continue. If no notes were recorded, all score notes are counted as missed.
+After recording stops, the script prints the complete alignment path and overall statistics. The full output is displayed in the terminal and saved as UTF-8 `output.txt`, including configuration messages, live MIDI events, alignment details, totals, and recording/cleanup errors. Audio is saved as `recording.wav` in the same folder. This script does not produce charts.
+
+MIDI recording and port-close exceptions are caught so analysis of the notes received so far can continue. If no notes were recorded, all score notes are counted as missed. If the audio dependency or input device is unavailable, the error is logged and MIDI analysis continues without a WAV. Set the `AUDIO_*` options below to select the intended audio input or disable audio deliberately. Audio and MIDI belong to the same Enter/Ctrl+C session; this is not sample-accurate audio/MIDI synchronization.
 
 ### Compare and export charts
 
@@ -68,17 +96,23 @@ After recording stops, the script prints the complete alignment path and overall
 python test_accuracy_with_chart.py
 ```
 
-The recording controls and terminal report are the same as above. After analysis, charts are saved under `reports/`, relative to the script directory:
+The recording controls and terminal report are the same as above. One invocation saves its log, simultaneous audio, and all chart pages together under `reports/`, relative to the script directory:
 
 ```text
-reports/alignment_<timestamp>_page01.png
-reports/alignment_<timestamp>_page02.png
-...
+reports/
+  <local_timestamp>/
+    output.txt
+    recording.wav
+    alignment_page01.png
+    alignment_page02.png
+    ...
 ```
 
 Each PNG contains **at most 30 aligned display positions**. Longer results continue on additional pages; no positions are discarded. For example, 61 positions produce pages containing 30, 30, and 1 position. Position numbers continue across pages. An empty result produces one chart marked `No note events`.
 
 Summary counts and percentages on every page describe the **entire performance**, not just the current page. Changing the page size affects chart layout only. Previously exported images are not regenerated automatically.
+
+Every new test gets a new timestamped folder. Terminal-only tests and standalone audio recording use the same folder convention and save only their applicable files. Output is flushed to disk while the session runs. If a test fails, the existing log, traceback, and files already written remain in its folder. A missing or disabled audio input is reported rather than represented by a fabricated recording. Old reports are not moved or overwritten.
 
 ## Configuration
 
@@ -91,6 +125,10 @@ The two accuracy scripts are independent copies. Edit the settings in the script
 | `PARTS` | `None` | All score parts. Use `[1]` for the first part or `[1, 2]` for the first two. Part numbers start at 1. |
 | `CHORD_WINDOW` | `0.05` seconds | Maximum onset span within a performance group, measured from its first note. Must be finite and nonnegative. |
 | `CHART_POSITIONS_PER_PAGE` | `30` | Maximum display positions per PNG, in `test_accuracy_with_chart.py`. Use a positive integer. |
+| `AUDIO_ENABLED` | `True` | Record WAV audio during the MIDI test. Set to `False` for a MIDI-only session. |
+| `AUDIO_DEVICE` | `None` | Default audio input. Set an audio device ID or name from `python record_audio.py --list-devices`. This is separate from `MIDI_PORT`. |
+| `AUDIO_SAMPLE_RATE` | `None` | Use the audio input's default sample rate, or set a supported rate such as `48000`. |
+| `AUDIO_CHANNELS` | `1` | Mono audio; use another channel count only if the input supports it. |
 
 Part numbers do not necessarily correspond to left and right hands. All voices and staves inside a selected part are read.
 
@@ -186,4 +224,13 @@ This is a preliminary pitch-order test. A fixed 50 ms window can split uneven ch
 
 If imports fail, install dependencies with the exact interpreter used to run the script. If the input port cannot be opened, check the device connection, list the available names again, and close other applications using the port. The accuracy scripts continue analysis after input errors, so inspect terminal error messages before interpreting an all-missed result as a performance error.
 
-Charts use Matplotlib's noninteractive `Agg` backend and are saved without opening a GUI window. All recorded note events remain in memory; the chart script exports PNGs, not a MIDI recording or a machine-readable alignment report.
+Charts use Matplotlib's noninteractive `Agg` backend and are saved without opening a GUI window. Raw MIDI note events are not exported as a `.mid` file; they appear in `output.txt` alongside the human-readable alignment report. The WAV captures the selected audio input, not synthesized sound from MIDI notes. Audio recording requires a working input carrying the desired sound.
+
+If the log says `No module named 'sounddevice'`, install it into the interpreter listed under `Python executable` in that same log. For the existing Miniconda environment:
+
+```powershell
+& C:\Users\86138\miniconda3\python.exe -m pip install sounddevice
+& C:\Users\86138\miniconda3\python.exe .\test_accuracy_with_chart.py
+```
+
+New session folders and log timestamps follow the computer's local clock and time zone. Older folders with `_UTC` keep their original names. On Windows terminals with limited character encodings, unrepresentable device-name characters are escaped so printing the device name does not prevent recording; the report log remains UTF-8.

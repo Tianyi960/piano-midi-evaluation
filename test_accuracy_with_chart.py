@@ -1,8 +1,8 @@
 """Preliminary pitch sequence alignment: note groups + DP edit distance.
 
-Dependencies: python -m pip install mido python-rtmidi music21 matplotlib
+Dependencies: python -m pip install mido python-rtmidi music21 matplotlib sounddevice
 Run: python test_accuracy_with_chart.py
-Prints alignment results and exports PNG charts to reports/.
+Saves terminal output, simultaneous audio, and PNG charts in a timestamped reports/ session.
 Each chart displays at most 30 positions; additional positions continue on new pages.
 """
 
@@ -16,6 +16,9 @@ from pathlib import Path
 import mido
 from music21 import converter, stream
 
+from record_audio import start_test_audio
+from session_report import create_session_directory, report_session
+
 
 SCORE_FILE = Path(__file__).with_name("Piano.musicxml")
 MIDI_PORT = "Roland Digital Piano 0"
@@ -26,6 +29,11 @@ PARTS = None
 CHORD_WINDOW = 0.05
 # Limit chart display positions, not alignment groups or the recorded note count.
 CHART_POSITIONS_PER_PAGE = 30
+# Audio is captured from an audio input independently of the MIDI port.
+AUDIO_ENABLED = True
+AUDIO_DEVICE = None  # None selects the system default audio input.
+AUDIO_SAMPLE_RATE = None  # None selects the audio input's default sample rate.
+AUDIO_CHANNELS = 1
 
 NOTE_NAMES = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
 SOLFEGE = ("Do", "Do#", "Re", "Re#", "Mi", "Fa", "Fa#", "Sol", "Sol#", "La", "La#", "Si")
@@ -176,13 +184,17 @@ def print_live_group(events):
     print(f"ON | {events[0][0]:.3f}s | {details}")
 
 
-def record_midi():
+def record_midi(audio_path=None):
     onsets = []
     pending = []
     port = None
+    audio = None
     try:
         port = mido.open_input(MIDI_PORT)
         input("Press Enter to start recording, then Ctrl+C to stop after playing.")
+        print()
+        if audio_path is not None:
+            audio = start_test_audio(audio_path, AUDIO_DEVICE, AUDIO_SAMPLE_RATE, AUDIO_CHANNELS)
         # Discard MIDI messages received before recording starts.
         list(port.iter_pending())
         start = time.perf_counter()
@@ -208,6 +220,8 @@ def record_midi():
     except Exception as error:
         print(f"\nMIDI recording error: {type(error).__name__}: {error}; analyzing notes received so far.")
     finally:
+        if audio is not None:
+            audio.stop()
         # Close explicitly and catch errors separately so analysis can still run.
         if port is not None:
             try:
@@ -366,7 +380,6 @@ def chart_note_slots(reference, performed, path):
 def export_comparison_chart(reference, performed, total, path,
                             output_dir=None, title=None, illustrative=False):
     """Export paired thin pitch bars with at most CHART_POSITIONS_PER_PAGE positions per PNG."""
-    from datetime import datetime
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -382,9 +395,8 @@ def export_comparison_chart(reference, performed, total, path,
         slots[i:i + CHART_POSITIONS_PER_PAGE]
         for i in range(0, len(slots), CHART_POSITIONS_PER_PAGE)
     ] or [[]]
-    directory = Path(output_dir) if output_dir else Path(__file__).resolve().parent / 'reports'
+    directory = Path(output_dir) if output_dir is not None else create_session_directory()
     directory.mkdir(parents=True, exist_ok=True)
-    run = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     colors = {'expected':'#4195df', 'correct':'#249a82', 'wrong':'#df902a',
               'extra':'#946cce', 'missed':'#d05270', 'unresolved':'#df902a'}
     all_pitches = [v for s in slots for v in s[:2] if v is not None]
@@ -462,7 +474,7 @@ def export_comparison_chart(reference, performed, total, path,
             fig.text(.075,.027,'Counts and note accuracy describe the entire recording, not only this page. '
                      'Chord members share S/P group labels.',fontsize=9,color='#738296')
         fig.subplots_adjust(left=.08,right=.975,top=.75,bottom=.18)
-        target = directory / f'alignment_{run}_page{page_no:02d}.png'
+        target = directory / f'alignment_page{page_no:02d}.png'
         fig.savefig(target,facecolor='white')
         plt.close(fig)
         files.append(target)
@@ -470,7 +482,7 @@ def export_comparison_chart(reference, performed, total, path,
     return files
 
 
-def main():
+def run_test(directory):
     print("Preliminary pitch sequence alignment; no rhythm scoring, timing model, or HMM.")
     print(f"CHORD_WINDOW={CHORD_WINDOW}s; fixed windows may affect scores for uneven chords and fast melodies.")
     print("Notes within a chord are unordered; unmatched notes are listed without assigning substitutions.")
@@ -481,11 +493,21 @@ def main():
     if not reference:
         raise ValueError("No score notes found; check the score file and selected parts.")
     print(f"Score groups: {len(reference)}, total score notes: {sum(len(group.notes) for group in reference)}")
-    onsets = record_midi()
+    if not AUDIO_ENABLED:
+        print("Audio recording disabled.")
+    onsets = record_midi(directory / "recording.wav" if AUDIO_ENABLED else None)
     performed = group_performance(onsets, CHORD_WINDOW)
     total, path = align_groups(reference, performed)
     print_alignment(reference, performed, total, path)
-    export_comparison_chart(reference, performed, total, path)
+    export_comparison_chart(reference, performed, total, path, output_dir=directory)
+
+
+def main():
+    with report_session(label="Pitch alignment with charts and audio") as directory:
+        try:
+            run_test(directory)
+        except KeyboardInterrupt:
+            print("\nTest cancelled; files already written are retained.")
 
 
 if __name__ == "__main__":
